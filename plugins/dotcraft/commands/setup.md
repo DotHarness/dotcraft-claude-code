@@ -3,16 +3,22 @@ description: Check that DotCraft is ready to take tasks in this project
 allowed-tools: Bash, AskUserQuestion
 ---
 
-Check these in order. Stop at the first problem and tell the user the next step.
+Run:
 
-1. **DotCraft CLI.** Run `dotcraft --version`. If the command is not found, look for the binary that DotCraft Desktop bundles:
-   - Windows: `%LOCALAPPDATA%\Programs\DotCraft\resources\bin\dotcraft.exe`
-   - macOS: `/Applications/DotCraft.app/Contents/Resources/bin/dotcraft`
-   - Linux: `/opt/DotCraft/resources/bin/dotcraft`
+```bash
+node "${CLAUDE_PLUGIN_ROOT}/scripts/dotcraft-companion.mjs" setup --json
+```
 
-   If one exists, use AskUserQuestion once to ask whether to add its folder to the user's PATH. Options: `Add to PATH (Recommended)` and `Skip`. If the user agrees, add the folder to the user-level PATH, and tell them to restart Claude Code so the change applies. If no binary exists, point them to https://github.com/DotHarness/dotcraft to install DotCraft.
-2. **Workspace.** Check that the current directory contains `.craft`. If it does not, tell the user to open this folder in DotCraft Desktop, or to run `dotcraft setup` here.
+If `node` itself is not found, tell the user to install Node.js 18.18 or later and stop.
 
-When everything passes, say that DotCraft is ready, and mention `/dotcraft:task` and `/dotcraft:image`. DotCraft uses the model provider configured in DotCraft. If none is configured, the first task reports it.
+Go through the report in this order and stop at the first problem:
+
+1. **Node.** If `nextSteps` asks for a newer Node.js, tell the user to install Node.js 18.18 or later.
+2. **DotCraft.** If `dotcraft.available` is false:
+   - If `dotcraft.bundledPath` is set, DotCraft Desktop is installed. Ask once with `AskUserQuestion` whether to add the folder of `bundledPath` to the user's PATH. The options are `Add to PATH (Recommended)` and `Skip`. If the user agrees, add the folder to the user-level PATH, rerun setup, and tell the user to restart Claude Code so the change applies.
+   - Otherwise, point the user to https://github.com/DotHarness/dotcraft to install DotCraft.
+3. **Workspace.** If `workspace.hasCraft` is false, tell the user to open this folder in DotCraft Desktop, or to run `dotcraft setup` in it.
+
+Present the final report to the user. When `ready` is true, say that DotCraft is ready, and mention `/dotcraft:task` and `/dotcraft:image`. DotCraft uses the model provider configured in DotCraft. If none is configured, the first task reports it.
 
 Never create the workspace or change DotCraft's configuration yourself.

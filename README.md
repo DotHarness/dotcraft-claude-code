@@ -12,7 +12,7 @@ Hand tasks to DotCraft from Claude Code and get the results back in the same con
 
 Claude can ask DotCraft to take on a task with any model you have set up in DotCraft, such as a GPT model, or to generate an image. The answer, the files DotCraft changed, and the generated images come back to Claude. The task runs as an ordinary DotCraft thread, so you can follow it or continue it in DotCraft Desktop.
 
-Requires DotCraft with the `dotcraft` command on your PATH, and the project folder set up as a DotCraft workspace. Open the folder in DotCraft Desktop once, or run `dotcraft setup` in it.
+Requires Node.js 18.18 or later, DotCraft with the `dotcraft` command on your PATH, and the project folder set up as a DotCraft workspace. Open the folder in DotCraft Desktop once, or run `dotcraft setup` in it.
 
 ## Install
 
@@ -30,6 +30,15 @@ Requires DotCraft with the `dotcraft` command on your PATH, and the project fold
 ```
 
 Or just ask: "Have DotCraft draft the migration script."
+
+| Command | What it does |
+|---------|--------------|
+| `/dotcraft:task` | Hand a task to DotCraft and get its answer. Add `--background` for long tasks, and `--resume` to continue the last one. |
+| `/dotcraft:image` | Generate an image, optionally from reference images with `--ref`. |
+| `/dotcraft:status` | See what DotCraft is working on. |
+| `/dotcraft:result` | Read the answer of a finished task. |
+| `/dotcraft:cancel` | Stop a task that is still running. |
+| `/dotcraft:setup` | Check that DotCraft is ready in this project. |
 
 ## License
 
