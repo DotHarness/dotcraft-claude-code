@@ -1,0 +1,21 @@
+{
+  "name": "dotcraft",
+  "owner": {
+    "name": "DotHarness"
+  },
+  "metadata": {
+    "description": "DotCraft plugins for Claude Code.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "dotcraft",
+      "description": "Use DotCraft from Claude Code to hand off tasks and generate images.",
+      "version": "0.1.0",
+      "author": {
+        "name": "DotHarness"
+      },
+      "source": "./plugins/dotcraft"
+    }
+  ]
+}

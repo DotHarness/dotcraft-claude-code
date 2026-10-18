@@ -1,0 +1,11 @@
+{
+  "name": "dotcraft",
+  "version": "0.1.0",
+  "description": "Use DotCraft from Claude Code to hand off tasks and generate images.",
+  "author": {
+    "name": "DotHarness"
+  },
+  "homepage": "https://github.com/DotHarness/dotcraft-claude-code",
+  "repository": "https://github.com/DotHarness/dotcraft-claude-code",
+  "license": "Apache-2.0"
+}
