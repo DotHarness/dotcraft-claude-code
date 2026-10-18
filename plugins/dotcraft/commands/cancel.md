@@ -8,12 +8,12 @@ Stop DotCraft's running task.
 
 Thread: $ARGUMENTS
 
-Use the thread id above. If it is empty, use the thread of the most recent DotCraft task in this conversation. If there is none, ask the user for the thread id. Never use `--last`: it could stop a thread that someone is running in DotCraft Desktop.
-
-Run:
+Run `dotcraft exec interrupt` with the thread id above, or with no argument when it is empty:
 
 ```bash
-dotcraft exec interrupt <thread-id>
+dotcraft exec interrupt [<thread-id>]
 ```
+
+Without a thread id, DotCraft stops the only exec task running in this workspace. If several are running, it lists their ids; ask the user which one to stop, then run the command again with that id.
 
 Report what the command printed.

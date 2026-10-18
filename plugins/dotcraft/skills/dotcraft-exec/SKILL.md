@@ -15,13 +15,14 @@ The project must be a DotCraft workspace (it contains `.craft`). If the command 
 ```bash
 dotcraft exec [-m <model>] [-i <image>]... [--auto-approve] "<task>"
 dotcraft exec resume <thread-id> [-m <model>] [-i <image>]... "<follow-up>"
-dotcraft exec interrupt <thread-id>
+dotcraft exec interrupt [<thread-id>]
 ```
 
 - Pass long task text through stdin instead of an argument: `dotcraft exec - <<'EOF' ... EOF`.
 - `-m` picks a model on DotCraft's default provider. Pass it only when the user names a model.
 - `-i` attaches a local image. Repeat it for several images.
-- `--auto-approve` lets DotCraft run operations that need approval. Use it only when the user asks for it. Without it, DotCraft refuses those operations and keeps working.
+- Operations that need approval follow the workspace's default approval policy in DotCraft: they run when it approves automatically, and are refused otherwise while the task keeps going. `--auto-approve` makes them run regardless. Use it only when the user asks for it.
+- `interrupt` without a thread id stops the only exec task running in the workspace, and lists their ids when several are running.
 - `resume` continues an existing thread. Use the thread id from an earlier DotCraft result in this conversation. `resume --last` picks the workspace's most recently active thread from any client, so use it only when the user asks for that.
 
 Run the command with the Bash tool's longest timeout. A task can take many minutes.

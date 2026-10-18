@@ -116,7 +116,7 @@ Setup never creates a workspace or edits DotCraft configuration itself.
 /dotcraft:cancel [<thread-id>]
 ```
 
-Runs `dotcraft exec interrupt` with the given thread. Without an argument, it uses the thread of the most recent DotCraft task in this conversation. It never falls back to `--last`, because that could stop a thread another client is running. The command's description states that stopping a Claude Code background task does not stop DotCraft's work, and that this command does.
+Runs `dotcraft exec interrupt` with the given thread. Without an argument, it runs `dotcraft exec interrupt` with no thread id, which stops the only exec task running in the workspace. A background task's thread id is only known when it finishes, so this is how a running background task is stopped. When several exec tasks are running, DotCraft lists their ids and Claude asks the user which one to stop. The command's description states that stopping a Claude Code background task does not stop DotCraft's work, and that this command does.
 
 ### 6.4 `/dotcraft:setup`
 
@@ -137,14 +137,14 @@ Claude can invoke this skill itself. It is also preloaded by the subagent. It gr
 
 - **Command forms.** Which `exec`, `exec resume`, and `exec interrupt` form to use, and how to pass long prompts through stdin.
 - **Reading results.** The final answer is on stdout, and only when the task completed. The thread id, generated image paths, progress, and failure reasons are on stderr. Exit status `0` means the task completed.
-- **Approvals.** By default, DotCraft refuses operations that need approval and keeps going. Use `--auto-approve` only when the user asks for it.
+- **Approvals.** Operations that need approval follow the workspace's default approval policy in DotCraft. Use `--auto-approve` only when the user asks for it.
 - **Where work happens.** DotCraft works in the project, which must be a DotCraft workspace. When exec reports `DotCraft workspace not found`, send the user to `/dotcraft:setup` instead of retrying elsewhere. Generated images are saved under the project's `.craft` folder.
 - **Rules.** Present DotCraft's output as DotCraft's, not as Claude's. Do not redo a failed DotCraft task unless the user asks.
 
 ## 7. Behavioral Contract
 
 - **Working directory.** The plugin runs `dotcraft` in Claude Code's current directory, which must be the DotCraft workspace. Files DotCraft edits are therefore inside the project, and the Exec CLI keeps other access behind approval.
-- **Approvals.** Approval outcomes follow the Exec CLI default. The plugin adds `--auto-approve` only when the user passes it, or explicitly asks for unattended full access.
+- **Approvals.** Approval outcomes follow the thread's approval policy, which for a new exec thread is the workspace's default. The plugin adds `--auto-approve` only when the user passes it, or explicitly asks for unattended full access.
 - **Long tasks.** Foreground delegation is bounded by Claude Code's shell timeout. For tasks expected to run longer, the subagent's description and the `task` command recommend `--background`.
 - **Concurrency.** A thread runs one task at a time. Resuming a thread that is still running reports the conflict. Claude then suggests waiting, `/dotcraft:cancel`, or `--fresh`.
 - **Data flow.** Only the user's task text, reference images, and the files DotCraft reads in the project leave Claude Code. The plugin never sends Claude's conversation history.
