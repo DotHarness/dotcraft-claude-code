@@ -1,6 +1,6 @@
 <div align="center">
 
-# DotCraft for Claude Code
+![DotCraft for Claude Code](https://github.com/DotHarness/resources/raw/master/dotcraft-claude-code/banner.png)
 
 [English](./README.md) · [DotCraft](https://github.com/DotHarness/dotcraft) · [License](./LICENSE)
 
